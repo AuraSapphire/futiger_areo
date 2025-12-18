@@ -28,10 +28,7 @@ base-uri 'self';
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
-<body>
-  <script>
-    window.__API_BASE__ = "http://87.106.62.92:10767";
-  </script>
+
   <script language="JavaScript">
     var message="sybau"
 
@@ -132,238 +129,12 @@ base-uri 'self';
         .replace(/'/g, '&#39;');
     }
 
-    // API base can be overridden before the script runs by setting `window.__API_BASE__`.
-    // For Netlify: set `window.__API_BASE__ = ''` (same origin) or the external API URL.
-    const API_BASE = (typeof window !== 'undefined' && window.__API_BASE__ !== undefined) ? window.__API_BASE__ : '';
-
+    
     const MAX_MESSAGE_LENGTH = 2000; // max characters per post
     const POST_COOLDOWN_MS = 10 * 1000; // 10 seconds between posts per client
     const MAX_POSTS_STORE = 5000; // keep newest 5000 posts
 
-    async function submitPost() {
-      const postInput = document.getElementById('postInput');
-      const raw = postInput.value.trim();
-      const captchaId = window.currentCaptchaId;
-      const captchaAnswer = document.getElementById('captchaAnswer').value;
-
-      if (!raw) {
-        alert('say something! 💭');
-        return;
-      }
-
-      if (raw.length > MAX_MESSAGE_LENGTH) {
-        alert('message is too long (max ' + MAX_MESSAGE_LENGTH + ' characters)');
-        return;
-      }
-
-      if (!captchaId) {
-        alert('please get a captcha and answer it');
-        return;
-      }
-
-      // send to server
-      try {
-        const res = await fetch(API_BASE + '/api/posts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: raw, captchaId, captchaAnswer })
-        });
-        const j = await res.json();
-        if (!res.ok) {
-          alert(j.error || 'post failed');
-          // refresh captcha if failed
-          fetchCaptcha();
-          return;
-        }
-        // success
-        postInput.value = '';
-        document.getElementById('captchaAnswer').value = '';
-        window.currentCaptchaId = null;
-        loadPosts();
-        renderArchiveList();
-      } catch (e) {
-        console.error(e);
-        alert('network error');
-      }
-    }
-
-    async function loadPosts(filterDate) {
-      const postsContainer = document.getElementById('postsContainer');
-      postsContainer.innerHTML = '';
-      try {
-        const q = filterDate ? `?date=${encodeURIComponent(filterDate)}` : '';
-        const res = await fetch(API_BASE + '/api/posts' + q);
-        const j = await res.json();
-        const rows = j.posts || [];
-        if (!rows.length) {
-          postsContainer.innerHTML = '<div style="padding: 30px; color: #999; text-align: center; font-style: italic;">no posts yet... be the first to share! 💫</div>';
-          return;
-        }
-        rows.forEach((post) => {
-          const postDiv = document.createElement('div');
-          postDiv.style.marginBottom = '15px';
-          postDiv.style.padding = '12px';
-          postDiv.style.borderLeft = '4px solid #d4af37';
-          postDiv.style.backgroundColor = '#f8f8f8';
-          postDiv.style.borderRadius = '3px';
-          postDiv.style.border = '1px solid #ddd';
-
-          const meta = document.createElement('div');
-          meta.style.fontSize = '0.85em';
-          meta.style.marginBottom = '8px';
-          meta.style.color = '#999';
-          const anon = document.createElement('span');
-          anon.style.color = '#666';
-          anon.style.fontWeight = 'bold';
-          anon.textContent = 'anonymous';
-          const time = document.createElement('span');
-          time.style.marginLeft = '6px';
-          time.textContent = '• ' + post.timestamp;
-          meta.appendChild(anon);
-          meta.appendChild(time);
-
-          const msg = document.createElement('div');
-          msg.style.wordWrap = 'break-word';
-          msg.style.whiteSpace = 'pre-wrap';
-          msg.style.lineHeight = '1.6';
-          msg.style.color = '#333';
-          msg.style.fontFamily = 'MS San Serif';
-          msg.textContent = post.message;
-
-          postDiv.appendChild(meta);
-          postDiv.appendChild(msg);
-          postsContainer.appendChild(postDiv);
-        });
-      } catch (e) {
-        console.error(e);
-        postsContainer.innerHTML = '<div style="padding: 30px; color: #999; text-align: center; font-style: italic;">unable to load posts</div>';
-      }
-    }
-
-    // Archive rendering
-    async function renderArchiveList() {
-      try {
-        const res = await fetch(API_BASE + '/api/posts');
-        const j = await res.json();
-        const posts = j.posts || [];
-        const dates = [...new Set(posts.map(p => p.date))];
-        const archiveDates = document.getElementById('archiveDates');
-        archiveDates.innerHTML = '';
-        if (dates.length === 0) {
-          archiveDates.innerHTML = '<div style="color:#999; padding:8px;">no archives yet</div>';
-          return;
-        }
-        dates.sort((a,b) => b.localeCompare(a)).forEach(dateKey => {
-          const d = document.createElement('div');
-          d.style.padding = '6px 4px';
-          d.style.borderBottom = '1px dashed #eee';
-          d.style.cursor = 'pointer';
-          d.textContent = dateKey;
-          d.addEventListener('click', () => {
-            loadPosts(dateKey);
-            showArchiveHeader(dateKey);
-            toggleArchive(false);
-          });
-          archiveDates.appendChild(d);
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    function showArchiveHeader(dateKey) {
-      const header = document.querySelector('.board-header');
-      // temporarily show selected date
-      let label = header.querySelector('.archive-label');
-      if (!label) {
-        label = document.createElement('div');
-        label.className = 'archive-label';
-        label.style.marginLeft = '12px';
-        label.style.fontSize = '13px';
-        label.style.color = '#666';
-        header.appendChild(label);
-      }
-      label.textContent = `viewing: ${dateKey}`;
-
-      // add a clear button
-      let clearBtn = header.querySelector('#clearArchiveView');
-      if (!clearBtn) {
-        clearBtn = document.createElement('button');
-        clearBtn.id = 'clearArchiveView';
-        clearBtn.textContent = 'show all';
-        clearBtn.style.marginLeft = '8px';
-        clearBtn.style.padding = '6px 8px';
-        clearBtn.style.fontFamily = 'MS San Serif';
-        clearBtn.addEventListener('click', () => {
-          loadPosts();
-          label.remove();
-          clearBtn.remove();
-        });
-        header.appendChild(clearBtn);
-      }
-    }
-
-    function toggleArchive(show) {
-      const panel = document.getElementById('archivePanel');
-      if (show === undefined) show = panel.hasAttribute('hidden');
-      if (show) panel.removeAttribute('hidden'); else panel.setAttribute('hidden', '');
-    }
-
-    function exportArchive() {
-      const posts = JSON.parse(localStorage.getItem('boardPosts')) || [];
-      const blob = new Blob([JSON.stringify(posts, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      const now = new Date().toISOString().slice(0,10);
-      a.href = url;
-      a.download = `mizo-anonymous-board-archive-${now}.json`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }
-
-    // Allow Enter to submit (Shift+Enter for new line)
-    document.addEventListener('DOMContentLoaded', async function() {
-      const postInput = document.getElementById('postInput');
-      if (postInput) {
-        postInput.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            submitPost();
-          }
-        });
-      }
-      // Archive toggle handlers
-      const archiveToggle = document.getElementById('archiveToggle');
-      const closeArchive = document.getElementById('closeArchive');
-      const exportBtn = document.getElementById('exportBtn');
-      const getCaptchaBtn = document.getElementById('getCaptcha');
-      if (archiveToggle) archiveToggle.addEventListener('click', () => { toggleArchive(); renderArchiveList(); });
-      if (closeArchive) closeArchive.addEventListener('click', () => toggleArchive(false));
-      if (exportBtn) exportBtn.addEventListener('click', exportArchive);
-      if (getCaptchaBtn) getCaptchaBtn.addEventListener('click', fetchCaptcha);
-
-      // Load posts and archive on page load
-      await loadPosts();
-      await renderArchiveList();
-      // prefetch a captcha
-      fetchCaptcha();
-    });
-
-    async function fetchCaptcha() {
-      try {
-        const res = await fetch(API_BASE + '/api/captcha');
-        const j = await res.json();
-        window.currentCaptchaId = j.id;
-        document.getElementById('captchaQuestion').textContent = j.question;
-        document.getElementById('captchaAnswer').value = '';
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  </script>
-
+    
   <!-- Music Player -->
   <div id="miniplay">
     <div class="stats">
@@ -635,6 +406,7 @@ base-uri 'self';
   </script>
 </body>
 </html>
+
 
 
 
