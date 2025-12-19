@@ -31,6 +31,17 @@ base-uri 'self';
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://atuwtktnxeimwvprkdgp.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_II673G5TTeusbLVOtaKm8g_8GL6XEEI";
+
+  const supabase = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+</script>
+
   <script language="JavaScript">
     var message="sybau"
 
@@ -135,6 +146,76 @@ base-uri 'self';
     const MAX_MESSAGE_LENGTH = 2000; // max characters per post
     const POST_COOLDOWN_MS = 10 * 1000; // 10 seconds between posts per client
     const MAX_POSTS_STORE = 5000; // keep newest 5000 posts
+async function submitPost() {
+  const input = document.getElementById('postInput');
+  const message = input.value.trim();
+
+  if (!message) {
+    alert('say something!');
+    return;
+  }
+
+  if (message.length > MAX_MESSAGE_LENGTH) {
+    alert('message too long');
+    return;
+  }
+
+  const { error } = await supabase
+    .from('posts')
+    .insert([{ message }]);
+
+  if (error) {
+    console.error(error);
+    alert('failed to post');
+    return;
+  }
+
+  input.value = '';
+  loadPosts();
+}
+async function loadPosts() {
+  const container = document.getElementById('postsContainer');
+  container.innerHTML = '';
+
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(100);
+
+  if (error) {
+    console.error(error);
+    container.innerHTML =
+      '<div style="padding:30px;color:#999;text-align:center;">unable to load posts</div>';
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML =
+      '<div style="padding:30px;color:#999;text-align:center;">no posts yet</div>';
+    return;
+  }
+
+  data.forEach(post => {
+    const div = document.createElement('div');
+    div.style.marginBottom = '15px';
+    div.style.padding = '12px';
+    div.style.borderLeft = '4px solid #d4af37';
+    div.style.background = '#f8f8f8';
+
+    div.innerHTML = `
+      <div style="font-size:12px;color:#999;">
+        anonymous • ${new Date(post.created_at).toLocaleString()}
+      </div>
+      <div style="white-space:pre-wrap;">
+        ${escapeHTML(post.message)}
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+}
+document.addEventListener('DOMContentLoaded', loadPosts);
 
   </script>
  
@@ -408,6 +489,7 @@ base-uri 'self';
   </script>
 </body>
 </html>
+
 
 
 
