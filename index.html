@@ -1,0 +1,511 @@
+<!-- redeploy -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="https://i.imgur.com/qyDkStE.gif">
+  <title>Mizo Anonymous Board</title>
+  <meta property="og:image" content="http://25.media.tumblr.com/tumblr_m3illaAsHw1rv68y7o1_400.gif" />
+  <meta property="twitter:card" content="summary_large_image">
+  <meta name="viewport" content="width=device-width, initial-scale=0.27">
+  <!-- Content Security Policy: restrict sources while allowing required CDNs -->
+  <meta http-equiv="Content-Security-Policy"
+content="
+default-src 'self' https: data:;
+script-src 'self' 'unsafe-inline' 'unsafe-eval'
+  https://cdnjs.cloudflare.com
+  https://unpkg.com
+  https://cdn.jsdelivr.net;
+style-src 'self' 'unsafe-inline'
+  https://fonts.googleapis.com
+  https://cdnjs.cloudflare.com
+  https://unpkg.com;
+img-src 'self' data: https:;
+font-src 'self' https://fonts.gstatic.com https:;
+connect-src 'self'
+  https://atuwtktnxeimwvprkdgp.supabase.co
+  https://*.supabase.co
+  https:;
+media-src 'self' https:;
+object-src 'none';
+frame-ancestors 'none';
+base-uri 'self';
+">
+
+  <link rel="stylesheet" href="https://unpkg.com/7.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://atuwtktnxeimwvprkdgp.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_II673G5TTeusbLVOtaKm8g_8GL6XEEI";
+
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+</script>
+
+  <script language="JavaScript">
+    var message="sybau"
+
+    function clickIE4(){
+      if (event.button==2){
+        alert(message);
+        return false;
+      }
+    }
+
+    function clickNS4(e){
+      if (document.layers||document.getElementById&&!document.all){
+        if (e.which==2||e.which==3){
+          alert(message);
+          return false;
+        }
+      }
+    }
+
+    if (document.layers){
+      document.captureEvents(Event.MOUSEDOWN);
+      document.onmousedown=clickNS4;
+    }
+    else if (document.all&&!document.getElementById){
+      document.onmousedown=clickIE4;
+    }
+
+    document.oncontextmenu=new Function("alert(message);return false")
+  </script>
+
+  <!-- Main Anonymous Board -->
+  <div class="board-container">
+    <div class="board-header">
+      <img src="https://i4.glitter-graphics.org/pub/1575/1575014z1cafzz3yq.gif" style="width: 20px;"> Mizo Anonymous Board 
+        <div style="margin-left: auto; display:flex; gap:8px; align-items:center;">
+          <button id="archiveToggle" style="padding:6px 10px; font-family: MS San Serif;">archive</button>
+          <button id="exportBtn" style="padding:6px 10px; font-family: MS San Serif;">export</button>
+        </div>
+      </div>
+      <div id="archivePanel" class="archive-panel" hidden>
+        <div style="padding:8px; border-bottom:1px solid #ddd; display:flex; justify-content:space-between; align-items:center;">
+          <strong style="font-size:13px;">Archive</strong>
+          <button id="closeArchive" style="padding:4px 8px; font-family: MS San Serif;">close</button>
+        </div>
+        <div id="archiveDates" style="max-height:220px; overflow:auto; padding:8px;"></div>
+      </div>
+    
+    <div class="board-input-section">
+      <textarea id="postInput" placeholder="whats good?" style="width: 100%; height: 80px; font-family: MS San Serif; padding: 8px; border: 1px solid #888; border-radius: 3px; resize: none; box-sizing: border-box;"></textarea>
+      <div style="margin-top: 10px; display: flex; gap: 8px; align-items:center;">
+        <button id="postBtn" onclick="submitPost()" style="padding: 8px 20px; background: linear-gradient(to bottom, #f2f2f2, #dcdcdc); border: 1px solid #a9a9a9; border-radius: 2px; font-family: MS San Serif; cursor: pointer; font-weight: bold; flex: 0 0 auto;">post</button>
+        <div id="captchaWrap" style="display:flex; gap:8px; align-items:center;">
+          <button id="getCaptcha" style="padding:6px 8px;">get captcha</button>
+          <span id="captchaQuestion" style="color:#555; font-size:13px;"></span>
+          <input id="captchaAnswer" placeholder="ans" style="width:48px; padding:4px; font-size:13px;" />
+        </div>
+        <span style="font-size: 12px; color: #666; line-height: 33px;">all posts are anonymous • timestamps added automatically</span>
+      </div>
+    </div>
+
+    <div id="postsContainer" class="posts-container">
+      <div style="padding: 30px; color: #999; text-align: center; font-style: italic;">no posts yet... be the first to share! 💫</div>
+    </div>
+  </div>
+
+  <!-- Blinkie marquee -->
+  <div class="buttons-n-blinkers">
+    <div>
+      <img src="https://i4.glitter-graphics.org/pub/1575/1575014z1cafzz3yq.gif" style="margin: 0 5px;" alt="star">
+      <img src="https://i4.glitter-graphics.org/pub/1575/1575014z1cafzz3yq.gif" style="margin: 0 5px;" alt="star">
+      <img src="https://i4.glitter-graphics.org/pub/676/676657yhxq5o5bjd.gif" style="margin: 0 5px;" alt="sparkle">
+      <img src="https://i4.glitter-graphics.org/pub/1575/1575014z1cafzz3yq.gif" style="margin: 0 5px;" alt="star">
+      <img src="https://i4.glitter-graphics.org/pub/676/676657yhxq5o5bjd.gif" style="margin: 0 5px;" alt="sparkle">
+    </div>
+  </div>
+
+  <!-- Marquee script -->
+  <script>
+    // Marquee animation
+    [...document.querySelectorAll(".buttons-n-blinkers")]
+      .map((div) => div.children[0])
+      .forEach((innerDiv) => {
+        let follower = innerDiv.cloneNode(true);
+        follower.classList.add("follower");
+        innerDiv.parentElement.appendChild(follower);
+        follower.classList.add("play");
+        innerDiv.classList.add("play");
+      });
+
+    // Anonymous Board Functionality with server persistence, captcha and auth
+    // Simple HTML-escape function for safe rendering
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    
+    const MAX_MESSAGE_LENGTH = 2000; // max characters per post
+    const POST_COOLDOWN_MS = 10 * 1000; // 10 seconds between posts per client
+    const MAX_POSTS_STORE = 5000; // keep newest 5000 posts
+async function submitPost() {
+  const input = document.getElementById('postInput');
+  const message = input.value.trim();
+
+  if (!message) {
+    alert('say something!');
+    return;
+  }
+
+  if (message.length > MAX_MESSAGE_LENGTH) {
+    alert('message too long');
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from('posts')
+    .insert([{ message }]);
+
+  if (error) {
+    console.error(error);
+    alert('failed to post');
+    return;
+  }
+
+  input.value = '';
+  loadPosts();
+}
+async function loadPosts() {
+  const container = document.getElementById('postsContainer');
+  container.innerHTML = '';
+
+  const { data, error } = await supabaseClient
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(100);
+
+  if (error) {
+    console.error(error);
+    container.innerHTML =
+      '<div style="padding:30px;color:#999;text-align:center;">unable to load posts</div>';
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML =
+      '<div style="padding:30px;color:#999;text-align:center;">no posts yet</div>';
+    return;
+  }
+
+  data.forEach(post => {
+    const div = document.createElement('div');
+    div.style.marginBottom = '15px';
+    div.style.padding = '12px';
+    div.style.borderLeft = '4px solid #d4af37';
+    div.style.background = '#f8f8f8';
+
+    div.innerHTML = `
+      <div style="font-size:12px;color:#999;">
+        anonymous • ${new Date(post.created_at).toLocaleString()}
+      </div>
+      <div style="white-space:pre-wrap;">
+        ${escapeHTML(post.message)}
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+}
+document.addEventListener('DOMContentLoaded', loadPosts);
+
+  </script>
+ 
+  <div id="miniplay">
+    <div class="stats">
+      <div class="track-art"></div>
+      <div class="now-playing">PLAYING x OF y</div>
+      <div style="display:flex;flex-direction:column;padding:10px 0 10px 10px;">
+        <div class="track-name">Track Name</div>
+        <div style="font-size:8pt;color:grey;" class="track-artist">Track Artist</div>
+      </div>
+    </div>
+
+    <div class="slider_container">
+      <div class="current-time">00:00</div>
+      <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
+      <div class="total-duration">00:00</div>
+    </div>
+
+    <div class="bttn">
+      <div class="prev-track" onclick="prevTrack()">
+        <?xml version="1.0" ?><svg height="28" viewBox="0 0 512 512" width="28" xmlns="http://www.w3.org/2000/svg">
+          <title />
+          <path d="M30.71,229.47l188.87-113a30.54,30.54,0,0,1,31.09-.39,33.74,33.74,0,0,1,16.76,29.47V224.6L448.15,116.44a30.54,30.54,0,0,1,31.09-.39A33.74,33.74,0,0,1,496,145.52v221A33.73,33.73,0,0,1,479.24,396a30.54,30.54,0,0,1-31.09-.39L267.43,287.4v79.08A33.73,33.73,0,0,1,250.67,396a30.54,30.54,0,0,1-31.09-.39l-188.87-113a31.27,31.27,0,0,1,0-53Z" />
+        </svg>
+      </div>
+      <div class="playpause-track" onclick="playpauseTrack()">
+        <i class="fa fa-play fa-lg"></i>
+      </div>
+      <div class="next-track" onclick="nextTrack()">
+        <?xml version="1.0" ?><svg height="28" viewBox="0 0 512 512" width="28" xmlns="http://www.w3.org/2000/svg">
+          <title />
+          <path d="M481.29,229.47l-188.87-113a30.54,30.54,0,0,0-31.09-.39,33.74,33.74,0,0,0-16.76,29.47V224.6L63.85,116.44a30.54,30.54,0,0,0-31.09-.39A33.74,33.74,0,0,0,16,145.52v221A33.74,33.74,0,0,0,32.76,396a30.54,30.54,0,0,0,31.09-.39L244.57,287.4v79.08A33.74,33.74,0,0,0,261.33,396a30.54,30.54,0,0,0,31.09-.39l188.87-113a31.27,31.27,0,0,0,0-53Z" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    #miniplay {
+      width: 18em;
+      height: 10em;
+      font-family: "Inter", serif;
+      background: #F5F5F5;
+      border: 2px solid #888;
+      border-radius: .625rem;
+      box-shadow: inset 10px 0px 6px -10px #CCC, inset -10px 0px 6px -10px #CCC, inset 0px 10px 6px -10px #FFF, inset 0px -10px 6px -10px #CCC;
+      padding: 12px;
+      cursor: move;
+      margin-top: 15px;
+      margin-left: 10px;
+      position: relative;
+      z-index: 100;
+    }
+
+    .stats {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .track-art {
+      width: 3.5em;
+      height: 3.5em;
+      object-fit: cover;
+      border-radius: 4px;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid #888;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23ddd' width='100' height='100'/%3E%3Ctext x='50' y='50' font-size='40' fill='%23999' text-anchor='middle' dominant-baseline='middle'%3E♫%3C/text%3E%3C/svg%3E");
+    }
+
+    .slider_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 8px 0;
+      gap: 5px;
+    }
+
+    .current-time,
+    .total-duration {
+      color: #666;
+      font-family: "Inter", serif;
+      font-size: 11px;
+      padding: 0 3px;
+    }
+
+    .seek_slider,
+    .volume_slider {
+      flex: 1;
+      max-width: 100px;
+    }
+
+    .seek_slider,
+    .volume_slider {
+      -webkit-appearance: slider-horizontal;
+      -moz-appearance: slider-horizontal;
+      appearance: slider-horizontal;
+      height: 4px;
+      background: #bbb;
+      cursor: pointer;
+    }
+
+    .now-playing,
+    .track-name,
+    .track-artist {
+      color: #333;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    .now-playing {
+      display: none;
+    }
+
+    .bttn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 5px;
+    }
+
+    .playpause-track,
+    .prev-track,
+    .next-track {
+      opacity: 0.6;
+      color: #000;
+      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .playpause-track:hover,
+    .prev-track:hover,
+    .next-track:hover {
+      opacity: 1;
+    }
+
+    i.fa-play,
+    i.fa-pause,
+    .prev-track,
+    .next-track {
+      cursor: pointer;
+    }
+
+    .prev-track svg,
+    .next-track svg {
+      fill: currentColor;
+    }
+  </style>
+
+  <script>
+    let now_playing = document.querySelector(".now-playing");
+    let track_art = document.querySelector(".track-art");
+    let track_name = document.querySelector(".track-name");
+    let track_artist = document.querySelector(".track-artist");
+    let playpause_btn = document.querySelector(".playpause-track");
+    let next_btn = document.querySelector(".next-track");
+    let prev_btn = document.querySelector(".prev-track");
+    let seek_slider = document.querySelector(".seek_slider");
+    let volume_slider = document.querySelector(".volume_slider");
+    let curr_time = document.querySelector(".current-time");
+    let total_duration = document.querySelector(".total-duration");
+    // Specify globally used values
+    let track_index = 0;
+    let isPlaying = false;
+    let updateTimer;
+    // Create the audio element for the player
+    let curr_track = document.createElement('audio');
+    // Define the list of tracks that have to be played
+    let track_list = [{
+        name: "Season of Memories",
+        artist: "GFRIEND - Season of Memories",
+        image: "https://64.media.tumblr.com/257022417e60949df9482eafb52e5ace/823f4dd47674e5f7-3d/s2048x3072/6d11aa3c11b135bccaf8f4ccd42a6abdcfced8cc.jpg",
+        path: "https://files.catbox.moe/vc4p9o.mp3"
+      },
+      {
+        name: "HIGH",
+        artist: "Seori - HIGH",
+        image: "https://64.media.tumblr.com/1c56b4b76b0736f0833a4e43d174ed66/823f4dd47674e5f7-b5/s2048x3072/4f2138ddeb3a4aa98887b8b55aa27fcda7fc3969.jpg",
+        path: "https://files.catbox.moe/ddh7c5.mp3"
+      },
+    ];
+    
+    function loadTrack(track_index) {
+      clearInterval(updateTimer);
+      resetValues();
+      curr_track.src = track_list[track_index].path;
+      curr_track.load();
+      track_art.style.backgroundImage = "url(" + track_list[track_index].image + ")";
+      track_name.textContent = track_list[track_index].name;
+      track_artist.textContent = track_list[track_index].artist;
+      now_playing.textContent = "PLAYING " + (track_index + 1) + " OF " + track_list.length;
+      updateTimer = setInterval(seekUpdate, 1000);
+      curr_track.addEventListener("ended", nextTrack);
+    }
+
+    function resetValues() {
+      curr_time.textContent = "00:00";
+      total_duration.textContent = "00:00";
+      seek_slider.value = 0;
+    }
+
+    function playpauseTrack() {
+      if (!isPlaying) playTrack();
+      else pauseTrack();
+    }
+
+    function playTrack() {
+      curr_track.play();
+      isPlaying = true;
+      playpause_btn.innerHTML = '<i class="fa fa-pause fa-lg"></i>';
+    }
+
+    function pauseTrack() {
+      curr_track.pause();
+      isPlaying = false;
+      playpause_btn.innerHTML = '<i class="fa fa-play fa-lg"></i>';
+    }
+
+    function nextTrack() {
+      if (track_index < track_list.length - 1)
+        track_index += 1;
+      else track_index = 0;
+      loadTrack(track_index);
+      playTrack();
+    }
+
+    function prevTrack() {
+      if (track_index > 0)
+        track_index -= 1;
+      else track_index = track_list.length - 1;
+      loadTrack(track_index);
+      playTrack();
+    }
+
+    function seekTo() {
+      seekto = curr_track.duration * (seek_slider.value / 100);
+      curr_track.currentTime = seekto;
+    }
+
+    function setVolume() {
+      curr_track.volume = volume_slider.value / 100;
+    }
+
+    function seekUpdate() {
+      let seekPosition = 0;
+      if (!isNaN(curr_track.duration)) {
+        seekPosition = curr_track.currentTime * (100 / curr_track.duration);
+        seek_slider.value = seekPosition;
+        let currentMinutes = Math.floor(curr_track.currentTime / 60);
+        let currentSeconds = Math.floor(curr_track.currentTime - currentMinutes * 60);
+        let durationMinutes = Math.floor(curr_track.duration / 60);
+        let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
+        if (currentSeconds < 10) { currentSeconds = "0" + currentSeconds; }
+        if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
+        if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
+        if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
+        curr_time.textContent = currentMinutes + ":" + currentSeconds;
+        total_duration.textContent = durationMinutes + ":" + durationSeconds;
+      }
+    }
+    
+    loadTrack(track_index);
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
