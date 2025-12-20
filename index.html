@@ -90,14 +90,34 @@ base-uri 'self';
           <button id="archiveToggle" style="padding:6px 10px; font-family: MS San Serif;">archive</button>
           <button id="exportBtn" style="padding:6px 10px; font-family: MS San Serif;">export</button>
         </div>
-      </div>
       <div id="archivePanel" class="archive-panel" hidden>
-        <div style="padding:8px; border-bottom:1px solid #ddd; display:flex; justify-content:space-between; align-items:center;">
-          <strong style="font-size:13px;">Archive</strong>
-          <button id="closeArchive" style="padding:4px 8px; font-family: MS San Serif;">close</button>
-        </div>
-        <div id="archiveDates" style="max-height:220px; overflow:auto; padding:8px;"></div>
-      </div>
+  <div style="padding:8px; border-bottom:1px solid #bbb; display:flex; justify-content:space-between; align-items:center; background:#f2f2f2;">
+    <strong style="font-size:13px;">Diary Archive</strong>
+    <button id="closeArchive" style="padding:4px 8px; font-family: MS San Serif;">close</button>
+  </div>
+
+  <!-- New diary entry -->
+  <div style="padding:8px; border-bottom:1px dashed #ccc;">
+    <button id="newDiaryBtn" style="padding:6px 10px; font-family: MS San Serif;">
+      + new diary entry
+    </button>
+  </div>
+
+  <!-- Diary list -->
+  <div id="diaryList" style="max-height:260px; overflow:auto; padding:8px;">
+    <!-- Placeholder entries -->
+    <div class="diary-item">
+      <div style="font-size:12px; color:#555;">anonymous • 2025-01-01</div>
+      <div style="font-weight:bold;">first diary entry</div>
+    </div>
+
+    <div class="diary-item">
+      <div style="font-size:12px; color:#555;">anonymous • 2025-01-02</div>
+      <div style="font-weight:bold;">another quiet night</div>
+    </div>
+  </div>
+</div>
+
     
     <div class="board-input-section">
       <textarea id="postInput" placeholder="whats good?" style="width: 100%; height: 80px; font-family: MS San Serif; padding: 8px; border: 1px solid #888; border-radius: 3px; resize: none; box-sizing: border-box;"></textarea>
@@ -499,6 +519,7 @@ document.addEventListener('DOMContentLoaded', loadPosts);
   </script>
 </body>
 </html>
+
 
 
 
