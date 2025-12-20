@@ -258,6 +258,22 @@ async function loadPosts() {
   });
 }
 document.addEventListener('DOMContentLoaded', loadPosts);
+    function openDiaryViewer(entry) {
+  document.getElementById('viewerTitle').textContent =
+    entry.title || 'Diary Entry';
+
+  document.getElementById('viewerDate').textContent =
+    new Date(entry.created_at).toLocaleString();
+
+  document.getElementById('viewerBody').textContent = entry.body;
+
+  document.getElementById('diaryViewer').hidden = false;
+}
+
+document.getElementById('closeDiaryViewer').addEventListener('click', () => {
+  document.getElementById('diaryViewer').hidden = true;
+});
+
 async function loadDiaryArchive() {
   const archiveDates = document.getElementById('archiveDates');
   archiveDates.innerHTML = 'loading...';
@@ -598,6 +614,7 @@ document.getElementById('closeArchive').addEventListener('click', () => {
 
 </body>
 </html>
+
 
 
 
