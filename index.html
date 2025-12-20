@@ -517,8 +517,23 @@ document.addEventListener('DOMContentLoaded', loadPosts);
     
     loadTrack(track_index);
   </script>
+<script>
+  const archiveToggle = document.getElementById('archiveToggle');
+  const archivePanel = document.getElementById('archivePanel');
+  const closeArchive = document.getElementById('closeArchive');
+
+  archiveToggle.addEventListener('click', () => {
+    archivePanel.hidden = false;
+  });
+
+  closeArchive.addEventListener('click', () => {
+    archivePanel.hidden = true;
+  });
+</script>
+
 </body>
 </html>
+
 
 
 
