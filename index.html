@@ -246,6 +246,59 @@ async function loadPosts() {
   });
 }
 document.addEventListener('DOMContentLoaded', loadPosts);
+async function loadDiaryArchive() {
+  const archiveDates = document.getElementById('archiveDates');
+  archiveDates.innerHTML = 'loading...';
+
+  const { data, error } = await supabaseClient
+    .from('diary_threads')
+    .select('id, title, body, created_at')
+    .order('created_at', { ascending: false })
+    .limit(50);
+
+  if (error) {
+    console.error(error);
+    archiveDates.innerHTML = 'failed to load archive';
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    archiveDates.innerHTML = 'no diary entries yet';
+    return;
+  }
+
+  archiveDates.innerHTML = '';
+
+  data.forEach(entry => {
+    const div = document.createElement('div');
+    div.style.padding = '6px 0';
+    div.style.borderBottom = '1px dotted #ccc';
+    div.style.cursor = 'pointer';
+
+    div.innerHTML = `
+      <div style="font-size:11px;color:#777;">
+        anonymous • ${new Date(entry.created_at).toLocaleDateString()}
+      </div>
+      <div style="font-weight:bold;">
+        ${escapeHTML(entry.title || '(untitled)')}
+      </div>
+    `;
+
+    div.onclick = () => {
+      alert(entry.body); // temporary viewer
+    };
+
+    archiveDates.appendChild(div);
+  });
+}
+document.getElementById('archiveToggle').addEventListener('click', () => {
+  document.getElementById('archivePanel').hidden = false;
+  loadDiaryArchive();
+});
+
+document.getElementById('closeArchive').addEventListener('click', () => {
+  document.getElementById('archivePanel').hidden = true;
+});
 
   </script>
  
@@ -533,6 +586,7 @@ document.addEventListener('DOMContentLoaded', loadPosts);
 
 </body>
 </html>
+
 
 
 
