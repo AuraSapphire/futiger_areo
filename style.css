@@ -33,3 +33,19 @@ button{font:inherit}
 footer{width:min(1180px,calc(100% - 36px));margin:0 auto 25px;display:flex;justify-content:space-between;color:#397f93;font-size:10px;font-weight:900}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.side-column{display:grid;grid-template-columns:1fr 1fr}.welcome-card{min-height:300px}.side-note{display:none}}
 @media(max-width:600px){.topbar,.layout,footer{width:calc(100% - 18px)}.topbar{margin-top:9px}.brand b{font-size:13px}.top-actions .aero-btn{font-size:0}.top-actions i{font-size:13px}.layout{margin-top:9px}.side-column{display:block}.welcome-card{min-height:auto}.player-card{margin-top:10px}.board-head{padding:14px}.board-count{display:none}.composer-row{align-items:stretch}.privacy{order:3;flex-basis:100%}.post-btn{margin-left:auto}.sun{width:100px;height:100px}.cloud-a{top:12%}.cloud-b{top:40%}footer{display:block;text-align:center;line-height:1.8}}
+
+/* 2000s desktop / anime reference layer */
+.ticker{grid-column:1/-1;display:flex;gap:28px;align-items:center;overflow:hidden;white-space:nowrap;padding:7px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.9);background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(196,244,255,.62));box-shadow:inset 0 1px #fff,0 5px 14px rgba(0,110,150,.14);font-family:Quicksand,sans-serif;font-size:9px;font-weight:800;color:#247b96;letter-spacing:.6px}
+.ticker span:first-child{color:#078ec1;text-shadow:0 1px #fff}.ticker span:last-child{opacity:.75}
+.memory-card{padding:10px;background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(206,244,255,.76));transform:rotate(-1deg);box-shadow:0 16px 28px rgba(18,112,150,.2),inset 0 2px 4px #fff}
+.memory-top{display:flex;justify-content:space-between;align-items:center;padding:2px 4px 8px;font-family:Quicksand,sans-serif;font-size:8px;color:#5a91a2}.memory-top span{font-weight:900;letter-spacing:1px}.memory-top b{font-size:7px;color:#8daab4}
+.memory-img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;border:2px solid #fff;box-shadow:inset 0 0 0 1px #83cfe1,0 4px 12px rgba(0,100,150,.18);image-rendering:auto}
+.memory-caption{text-align:center;padding:7px 2px 3px;font-family:Quicksand,sans-serif;font-size:8px;font-weight:700;color:#5b8796}
+.tiny-badge{display:inline-block;margin-top:7px;padding:3px 7px;border-radius:4px;background:#fff;border:1px solid #9ed7e5;color:#6b9aaa;font-size:7px;box-shadow:1px 1px 0 #c2eaf2}
+.board{box-shadow:0 26px 60px rgba(11,99,137,.25),inset 0 2px 4px #fff,inset 0 -22px 45px rgba(26,171,210,.1)}
+.board-head{position:relative}.board-head:after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:3px;background:linear-gradient(90deg,transparent,#b9f7ff,#fff,#b9f7ff,transparent);opacity:.8}
+.composer{background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(222,250,255,.5))}
+.post-card{position:relative}.post-card:before{content:"✦";position:absolute;right:11px;top:8px;font-size:10px;color:#9adfea;opacity:.8}.post-card:nth-child(3n){border-left-color:#ff9dcc}.post-card:nth-child(4n){border-left-color:#77d49a}
+.aero-btn,.post-btn,.play-circle{font-family:Nunito,sans-serif}.aero-btn{position:relative;overflow:hidden}.aero-btn:before{content:"";position:absolute;left:8%;right:8%;top:2px;height:35%;border-radius:99px;background:rgba(255,255,255,.6);pointer-events:none}
+footer{padding-top:10px;border-top:1px dashed rgba(55,128,149,.35)}
+@media(max-width:900px){.ticker{grid-column:auto}.memory-card{transform:none}}
