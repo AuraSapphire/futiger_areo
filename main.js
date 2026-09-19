@@ -12,6 +12,74 @@ async function db(path,options={}){
   return body?JSON.parse(body):null;
 }
 
+
+const AUDIO_BUCKET='site-audio';
+let audioTracks=[];
+let currentTrackIndex=0;
+
+function prettyTrackName(filename){
+  return filename.replace(/\\.[^/.]+$/,'').replace(/[-_]+/g,' ').replace(/\\b\\w/g,c=>c.toUpperCase());
+}
+
+function audioPublicUrl(path){
+  return SUPABASE_URL+'/storage/v1/object/public/'+AUDIO_BUCKET+'/'+path.split('/').map(encodeURIComponent).join('/');
+}
+
+async function loadMusicLibrary(){
+  const list=document.getElementById('musicPlaylist');
+  const audio=document.getElementById('siteAudio');
+  if(!list||!audio)return;
+  list.innerHTML='<div class="playlist-loading"><i class="fa-solid fa-spinner fa-spin"></i> scanning the radio shelf…</div>';
+  try{
+    const res=await fetch(SUPABASE_URL+'/storage/v1/object/list/'+AUDIO_BUCKET,{
+      method:'POST',
+      headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({prefix:'',limit:100,offset:0,sortBy:{column:'name',order:'asc'}})
+    });
+    const rows=await res.json();
+    if(!res.ok)throw new Error(rows?.message||'Could not list music');
+    audioTracks=(Array.isArray(rows)?rows:[]).filter(x=>x.id!==null && /\\.(mp3|wav|ogg|m4a|aac|flac)$/i.test(x.name));
+    list.innerHTML='';
+    if(!audioTracks.length){
+      list.innerHTML='<div class="playlist-empty">No songs yet — upload one to the <b>site-audio</b> bucket.</div>';
+      return;
+    }
+    audioTracks.forEach((track,i)=>{
+      const btn=document.createElement('button');
+      btn.type='button';btn.className='playlist-track';
+      btn.innerHTML='<i class="fa-solid fa-music"></i><span>'+prettyTrackName(track.name)+'</span>';
+      btn.addEventListener('click',()=>playTrack(i));
+      list.appendChild(btn);
+    });
+    playTrack(0,false);
+  }catch(err){
+    console.error('Music library error:',err);
+    list.innerHTML='<div class="playlist-empty">Radio shelf unavailable. <button id="musicRetry" class="aero-btn small" type="button">retry</button></div>';
+    document.getElementById('musicRetry')?.addEventListener('click',loadMusicLibrary);
+  }
+}
+
+function playTrack(index,autoplay=true){
+  const audio=document.getElementById('siteAudio');
+  if(!audio||!audioTracks[index])return;
+  currentTrackIndex=index;
+  const track=audioTracks[index];
+  audio.src=audioPublicUrl(track.name);
+  const name=document.querySelector('.track-name'),artist=document.querySelector('.track-artist');
+  if(name)name.textContent=prettyTrackName(track.name);
+  if(artist)artist.textContent='site-audio • Supabase';
+  document.querySelectorAll('.playlist-track').forEach((b,i)=>b.classList.toggle('active',i===index));
+  if(autoplay)audio.play().catch(()=>{});
+}
+
+function setupMusicPlayer(){
+  const audio=document.getElementById('siteAudio');
+  if(!audio)return;
+  audio.addEventListener('ended',()=>playTrack((currentTrackIndex+1)%audioTracks.length));
+  document.getElementById('musicRefresh')?.addEventListener('click',loadMusicLibrary);
+  loadMusicLibrary();
+}
+
 function makeCaptcha(){
   const a=Math.floor(Math.random()*9)+1,b=Math.floor(Math.random()*9)+1;
   captchaAnswer=a+b;
@@ -121,4 +189,5 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('postBtn')?.addEventListener('click',submitPost);
   makeCaptcha();
   loadPosts();renderArchiveList();
+  setupMusicPlayer();
 });
