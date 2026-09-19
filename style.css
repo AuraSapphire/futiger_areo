@@ -196,3 +196,9 @@ body{
 /* Uploaded artwork replaces the welcome message */
 .image-welcome-card{padding:0;overflow:hidden;min-height:0}
 .image-welcome-card img{display:block;width:100%;height:auto;max-height:520px;object-fit:cover;border-radius:inherit}
+
+/* Make the welcome artwork itself a working shortcut to the anonymous chat box */
+.welcome-chat-link{display:block;line-height:0;text-decoration:none;cursor:pointer}
+.welcome-chat-link img{cursor:pointer;transition:filter .15s ease,transform .15s ease}
+.welcome-chat-link:hover img{filter:saturate(1.08) brightness(1.03)}
+.welcome-chat-link:active img{transform:scale(.995)}
