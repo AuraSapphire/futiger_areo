@@ -67,10 +67,6 @@ footer{padding-top:10px;border-top:1px dashed rgba(55,128,149,.35)}
 .playlist-loading,.playlist-empty{font-size:11px;color:#5b8998;padding:8px}
 
 
-/* WMP-inspired outer site frame — reference image */
-html:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:99999;border:12px solid transparent;border-image:linear-gradient(135deg,#eef4ff 0%,#b9c9ee 12%,#6f83bd 27%,#dfe8ff 43%,#899bd0 60%,#f4f7ff 78%,#7184ba 100%) 1;box-shadow:inset 0 0 0 2px rgba(255,255,255,.9),inset 0 0 0 5px rgba(77,103,165,.42),inset 0 0 18px rgba(36,65,132,.42);}
-@media(max-width:600px){html:before{border-width:7px}}
-
 
 /* Note Pad outer frame — faithful pixel-style reference */
 html{scrollbar-width:none}
