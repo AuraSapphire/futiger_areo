@@ -181,3 +181,13 @@ html::-webkit-scrollbar{display:none}
 
 /* Hand-drawn arrow cursor from the supplied reference */
 html,body,body *{cursor:url("cursor.svg") 1 13,auto}
+
+
+/* User-supplied Futiger Aero background */
+body{
+  background-image:url("assets/site-background.webp") !important;
+  background-size:cover;
+  background-position:center center;
+  background-attachment:fixed;
+  background-repeat:no-repeat;
+}
