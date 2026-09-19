@@ -4,11 +4,27 @@
 <meta name="theme-color" content="#20c9ef"><meta name="description" content="Public Dumps — an anonymous diary board.">
 <title>Public Dumps · Frutiger Aero</title>
 <link rel="icon" href="https://i4.glitter-graphics.org/pub/1575/1575014z1cafzz3yq.gif">
-<link rel="stylesheet" href="style.css?v=12">
+<link rel="stylesheet" href="style.css?v=13">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"></head>
 <body>
+<div class="notepad-frame" aria-hidden="true">
+  <div class="notepad-titlebar">
+    <span class="notepad-menu"></span>
+    <span class="notepad-title">Note Pad</span>
+    <span class="notepad-window-buttons"><i></i><i></i><i></i></span>
+  </div>
+  <div class="notepad-scrollbar" id="pageScrollbar" aria-hidden="false">
+    <button class="np-scroll-btn np-up" id="npScrollUp" type="button" aria-label="Scroll up">▲</button>
+    <div class="np-scroll-track" id="npScrollTrack">
+      <button class="np-scroll-thumb" id="npScrollThumb" type="button" aria-label="Page scrollbar thumb"></button>
+    </div>
+    <button class="np-scroll-btn np-down" id="npScrollDown" type="button" aria-label="Scroll down">▼</button>
+  </div>
+  <div class="notepad-corner notepad-corner-left"></div>
+  <div class="notepad-corner notepad-corner-right"></div>
+</div>
 <div class="aero-scene" aria-hidden="true"><div class="sun"></div><div class="cloud cloud-a"></div><div class="cloud cloud-b"></div><div class="cloud cloud-c"></div><div class="bubble bubble-1"></div><div class="bubble bubble-2"></div><div class="bubble bubble-3"></div><div class="leaf leaf-a"></div><div class="leaf leaf-b"></div><div class="sparkle sparkle-a">✦</div><div class="sparkle sparkle-b">✧</div><div class="sparkle sparkle-c">✦</div></div>
 <header class="topbar glass"><a class="brand" href="#" id="homeBtn" aria-label="Public Dumps home"><span class="brand-orb"><i class="fa-solid fa-water"></i></span><span><b>PUBLIC DUMPS</b><small>anonymous diary board</small></span></a><div class="top-actions"><button id="archiveToggle" class="aero-btn"><i class="fa-solid fa-calendar-days"></i> archive</button><button id="exportBtn" class="aero-btn"><i class="fa-solid fa-download"></i> export</button></div></header>
 <main class="layout"><div class="ticker"><span>✦ WELCOME TO THE BLUE INTERNET ✦</span><span>♡ anonymous thoughts • tiny radio • old web energy • 2000s anime glow ♡</span></div><aside class="side-column">
@@ -20,4 +36,4 @@
 <section id="archivePanel" class="archive-panel" hidden><div class="archive-head"><strong><i class="fa-solid fa-box-archive"></i> Archive</strong><button id="closeArchive" type="button">close ×</button></div><div id="archiveDates"></div></section>
 <div id="postsContainer" class="posts-container"><div class="loading-state"><i class="fa-solid fa-spinner fa-spin"></i> floating thoughts are loading…</div></div>
 </section></main><footer><span>✦ PUBLIC DUMPS</span><span>stay soft · stay anonymous · stay online</span></footer>
-<script src="main.js?v=12"></script></body></html>
+<script src="main.js?v=13"></script></body></html>
