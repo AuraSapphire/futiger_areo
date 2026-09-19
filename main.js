@@ -180,6 +180,78 @@ async function exportPosts(){
 }
 
 
+
+/* Functional Note Pad-style page scrollbar */
+function setupPageScrollbar(){
+  const rail=document.getElementById('pageScrollbar');
+  const track=document.getElementById('npScrollTrack');
+  const thumb=document.getElementById('npScrollThumb');
+  const up=document.getElementById('npScrollUp');
+  const down=document.getElementById('npScrollDown');
+  if(!rail||!track||!thumb||!up||!down)return;
+
+  let dragging=false;
+  let dragOffset=0;
+
+  function metrics(){
+    const max=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
+    const trackH=track.clientHeight;
+    const ratio=window.innerHeight/Math.max(document.documentElement.scrollHeight,window.innerHeight);
+    const thumbH=Math.max(24,Math.min(trackH,Math.round(trackH*ratio)));
+    const travel=Math.max(0,trackH-thumbH);
+    return {max,trackH,thumbH,travel};
+  }
+
+  function render(){
+    const m=metrics();
+    thumb.style.height=m.thumbH+'px';
+    const y=m.max?window.scrollY/m.max*m.travel:0;
+    thumb.style.top=Math.max(0,Math.min(m.travel,y))+'px';
+  }
+
+  function scrollByPage(amount){
+    window.scrollBy({top:amount,behavior:'smooth'});
+  }
+
+  up.addEventListener('click',()=>scrollByPage(-Math.max(80,window.innerHeight*.65)));
+  down.addEventListener('click',()=>scrollByPage(Math.max(80,window.innerHeight*.65)));
+
+  track.addEventListener('pointerdown',e=>{
+    if(e.target===thumb)return;
+    const r=track.getBoundingClientRect();
+    const m=metrics();
+    const target=Math.max(0,Math.min(m.travel,e.clientY-r.top-m.thumbH/2));
+    window.scrollTo({top:m.max?(target/m.travel)*m.max:0,behavior:'smooth'});
+  });
+
+  thumb.addEventListener('pointerdown',e=>{
+    e.preventDefault();
+    const r=thumb.getBoundingClientRect();
+    dragging=true;
+    dragOffset=e.clientY-r.top;
+    thumb.setPointerCapture(e.pointerId);
+  });
+  thumb.addEventListener('pointermove',e=>{
+    if(!dragging)return;
+    const r=track.getBoundingClientRect();
+    const m=metrics();
+    const target=Math.max(0,Math.min(m.travel,e.clientY-r.top-dragOffset));
+    window.scrollTo({top:m.max?(target/m.travel)*m.max:0});
+  });
+  thumb.addEventListener('pointerup',()=>{dragging=false});
+  thumb.addEventListener('pointercancel',()=>{dragging=false});
+
+  // Wheel over the custom scrollbar itself.
+  rail.addEventListener('wheel',e=>{
+    e.preventDefault();
+    window.scrollBy({top:e.deltaY});
+  },{passive:false});
+
+  window.addEventListener('scroll',render,{passive:true});
+  window.addEventListener('resize',render);
+  requestAnimationFrame(render);
+}
+
 window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('homeBtn')?.addEventListener('click',e=>{e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});loadPosts()});
   document.getElementById('archiveToggle')?.addEventListener('click',()=>{toggleArchive();renderArchiveList()});
@@ -190,4 +262,5 @@ window.addEventListener('DOMContentLoaded',()=>{
   makeCaptcha();
   loadPosts();renderArchiveList();
   setupMusicPlayer();
+  setupPageScrollbar();
 });
