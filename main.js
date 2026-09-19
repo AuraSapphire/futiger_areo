@@ -72,39 +72,12 @@ function playTrack(index,autoplay=true){
   if(autoplay)audio.play().catch(()=>{});
 }
 
-function updateWmpState(){
-  const audio=document.getElementById('siteAudio'),card=document.querySelector('.wmp-card'),play=document.getElementById('wmpPlay'),status=document.getElementById('wmpStatus');
-  if(!audio)return;
-  const playing=!audio.paused&&!audio.ended;
-  card?.classList.toggle('is-playing',playing);
-  if(play){play.textContent=playing?'❚❚':'▶';play.setAttribute('aria-label',playing?'Pause':'Play');}
-  if(status)status.textContent=audio.ended?'Ended':(playing?'Playing':'Ready');
-}
-function syncWmpSeek(){
-  const audio=document.getElementById('siteAudio'),seek=document.getElementById('wmpSeek');
-  if(!audio||!seek||!Number.isFinite(audio.duration)||audio.duration<=0)return;
-  seek.value=Math.round((audio.currentTime/audio.duration)*1000);
-}
 function setupMusicPlayer(){
   const audio=document.getElementById('siteAudio');
   if(!audio)return;
-  audio.volume=.8;
-  audio.addEventListener('ended',()=>{if(audioTracks.length)playTrack((currentTrackIndex+1)%audioTracks.length)});
-  audio.addEventListener('play',updateWmpState);audio.addEventListener('pause',updateWmpState);
-  audio.addEventListener('timeupdate',syncWmpSeek);audio.addEventListener('loadedmetadata',syncWmpSeek);
+  audio.addEventListener('ended',()=>playTrack((currentTrackIndex+1)%audioTracks.length));
   document.getElementById('musicRefresh')?.addEventListener('click',loadMusicLibrary);
-  document.getElementById('wmpPlay')?.addEventListener('click',()=>audio.paused?(audio.play().catch(()=>{})):audio.pause());
-  document.getElementById('wmpStop')?.addEventListener('click',()=>{audio.pause();audio.currentTime=0;updateWmpState();syncWmpSeek()});
-  document.getElementById('wmpPrev')?.addEventListener('click',()=>{if(audioTracks.length)playTrack((currentTrackIndex-1+audioTracks.length)%audioTracks.length)});
-  document.getElementById('wmpNext')?.addEventListener('click',()=>{if(audioTracks.length)playTrack((currentTrackIndex+1)%audioTracks.length)});
-  document.getElementById('wmpMute')?.addEventListener('click',()=>{audio.muted=!audio.muted;document.getElementById('wmpMute').textContent=audio.muted?'×))':'◖))'});
-  document.getElementById('wmpSeek')?.addEventListener('input',e=>{if(Number.isFinite(audio.duration))audio.currentTime=(Number(e.target.value)/1000)*audio.duration});
-  document.getElementById('wmpVolume')?.addEventListener('input',e=>{audio.volume=Number(e.target.value)/100;audio.muted=false;document.getElementById('wmpMute').textContent='◖))'});
-  const toggle=()=>document.getElementById('musicPlaylist')?.classList.toggle('open');
-  document.getElementById('playlistToggle')?.addEventListener('click',toggle);document.getElementById('playlistMiniToggle')?.addEventListener('click',toggle);
-  document.getElementById('visualToggle')?.addEventListener('click',()=>document.getElementById('wmpVisualizer')?.classList.toggle('hidden'));
-  document.getElementById('equalizerToggle')?.addEventListener('click',()=>document.querySelector('.wmp-card')?.classList.toggle('eq-on'));
-  loadMusicLibrary();updateWmpState();
+  loadMusicLibrary();
 }
 
 function makeCaptcha(){
