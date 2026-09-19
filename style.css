@@ -55,3 +55,13 @@ footer{padding-top:10px;border-top:1px dashed rgba(55,128,149,.35)}
 .track-found{padding:8px 2px 2px;text-align:center;font-family:Quicksand,sans-serif;font-size:10px;font-weight:800;color:#3e8799}.track-found small{font-size:8px;font-weight:600;opacity:.7}
 
 .native-audio{width:100%;height:38px;margin-top:12px;border-radius:10px;filter:saturate(.9);accent-color:#28a9d4}.native-audio::-webkit-media-controls-panel{background:linear-gradient(180deg,#efffff,#bceef8)}
+
+
+/* live Supabase music shelf */
+.music-actions{display:flex;justify-content:flex-end;margin-top:8px}
+.music-playlist{display:flex;flex-direction:column;gap:6px;margin-top:10px;max-height:190px;overflow:auto;padding-right:2px}
+.playlist-track{display:flex;align-items:center;gap:9px;width:100%;border:1px solid rgba(50,160,205,.28);border-radius:10px;padding:8px 10px;background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(199,242,249,.7));color:#12627d;font:700 12px Nunito,sans-serif;cursor:pointer;text-align:left;box-shadow:inset 0 1px rgba(255,255,255,.95),0 2px 5px rgba(33,122,160,.08)}
+.playlist-track:hover,.playlist-track.active{transform:translateY(-1px);background:linear-gradient(180deg,#efffff,#b9edf7);box-shadow:0 3px 9px rgba(26,139,182,.16),inset 0 1px #fff}
+.playlist-track.active{outline:2px solid rgba(34,171,216,.22)}
+.playlist-track i{width:15px;text-align:center}
+.playlist-loading,.playlist-empty{font-size:11px;color:#5b8998;padding:8px}
