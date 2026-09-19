@@ -191,3 +191,8 @@ body{
   background-attachment:fixed;
   background-repeat:no-repeat;
 }
+
+
+/* Uploaded artwork replaces the welcome message */
+.image-welcome-card{padding:0;overflow:hidden;min-height:0}
+.image-welcome-card img{display:block;width:100%;height:auto;max-height:520px;object-fit:cover;border-radius:inherit}
