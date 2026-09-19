@@ -1,30 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#24b9ea"><meta name="description" content="Public Dumps — an anonymous diary board.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#20c9ef">
+<meta name="description" content="Public Dumps — an anonymous diary board.">
 <title>Public Dumps · Frutiger Aero</title>
 <link rel="icon" href="https://i4.glitter-graphics.org/pub/1575/1575014z1cafzz3yq.gif">
-<link rel="stylesheet" href="style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-<div class="sky"><div class="sun"></div><div class="cloud cloud-a"></div><div class="cloud cloud-b"></div><div class="cloud cloud-c"></div><div class="bubble bubble-1"></div><div class="bubble bubble-2"></div><div class="bubble bubble-3"></div></div>
-<header class="topbar glass"><a class="brand" href="#"><span class="brand-orb"><i class="fa-solid fa-water"></i></span><span><b>PUBLIC DUMPS</b><small>anonymous diary board</small></span></a><div class="top-actions"><button id="archiveToggle" class="aero-btn"><i class="fa-solid fa-calendar-days"></i> archive</button><button id="exportBtn" class="aero-btn"><i class="fa-solid fa-download"></i> export</button></div></header>
+<div class="aero-scene" aria-hidden="true">
+  <div class="sun"></div>
+  <div class="cloud cloud-a"></div><div class="cloud cloud-b"></div><div class="cloud cloud-c"></div>
+  <div class="bubble bubble-1"></div><div class="bubble bubble-2"></div><div class="bubble bubble-3"></div>
+  <div class="leaf leaf-a"></div><div class="leaf leaf-b"></div>
+  <div class="sparkle sparkle-a">✦</div><div class="sparkle sparkle-b">✧</div><div class="sparkle sparkle-c">✦</div>
+</div>
+
+<header class="topbar glass">
+  <a class="brand" href="#" id="homeBtn" aria-label="Public Dumps home">
+    <span class="brand-orb"><i class="fa-solid fa-water"></i></span>
+    <span><b>PUBLIC DUMPS</b><small>anonymous diary board</small></span>
+  </a>
+  <div class="top-actions">
+    <button id="archiveToggle" class="aero-btn"><i class="fa-solid fa-calendar-days"></i> archive</button>
+    <button id="exportBtn" class="aero-btn"><i class="fa-solid fa-download"></i> export</button>
+  </div>
+</header>
+
 <main class="layout">
 <aside class="side-column">
-<section class="aero-card welcome-card"><div class="card-shine"></div><div class="mini-icon">✦</div><p class="eyebrow">WELCOME ONLINE</p><h1>Say what's<br><span>on your mind.</span></h1><p class="muted">No names. No profiles. Just little pieces of life floating through the internet.</p><div class="status"><span></span> board is online</div></section>
-<section class="aero-card player-card"><div class="card-title"><i class="fa-solid fa-music"></i> tiny radio</div><div class="player-main"><div class="track-art"></div><div><strong class="track-name">Season of Memories</strong><small class="track-artist">GFRIEND</small></div></div><div class="progress"><span class="current-time">00:00</span><input type="range" min="0" max="100" value="0" class="seek_slider"><span class="total-duration">00:00</span></div><div class="player-controls"><button class="prev-track" aria-label="Previous"><i class="fa-solid fa-backward-step"></i></button><button class="playpause-track play-circle" aria-label="Play"><i class="fa-solid fa-play"></i></button><button class="next-track" aria-label="Next"><i class="fa-solid fa-forward-step"></i></button></div></section>
-<div class="side-note">✿ made for late-night thoughts<br>☁ somewhere under the blue sky</div>
+  <section class="aero-card welcome-card">
+    <div class="card-shine"></div><div class="mini-icon">✦</div>
+    <p class="eyebrow">WELCOME ONLINE</p>
+    <h1>Say what's<br><span>on your mind.</span></h1>
+    <p class="muted">No names. No profiles. Just little pieces of life floating through the internet.</p>
+    <div class="status"><span></span> board is online</div>
+    <div class="anime-sticker"><span>♡</span><b>internet angel</b><small>2000s web edition</small></div>
+  </section>
+
+  <section class="aero-card player-card">
+    <div class="card-title"><i class="fa-solid fa-music"></i> tiny radio <span>● ON AIR</span></div>
+    <div class="player-main">
+      <div class="track-art"></div>
+      <div><strong class="track-name">Season of Memories</strong><small class="track-artist">GFRIEND</small></div>
+    </div>
+    <div class="progress">
+      <span class="current-time">00:00</span>
+      <input type="range" min="0" max="100" value="0" class="seek_slider" aria-label="Seek music">
+      <span class="total-duration">00:00</span>
+    </div>
+    <div class="player-controls">
+      <button class="prev-track" aria-label="Previous"><i class="fa-solid fa-backward-step"></i></button>
+      <button class="playpause-track play-circle" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+      <button class="next-track" aria-label="Next"><i class="fa-solid fa-forward-step"></i></button>
+    </div>
+  </section>
+  <div class="side-note">✿ made for late-night thoughts<br>☁ somewhere under the blue sky</div>
 </aside>
+
 <section class="board aero-card">
-<div class="board-head"><div><span class="online-dot"></span><strong>public timeline</strong><small>everyone is anonymous here</small></div><div class="board-count"><i class="fa-solid fa-cloud"></i> floating thoughts</div></div>
-<section class="composer"><textarea id="postInput" maxlength="2000" placeholder="what's good? tell the void..."></textarea><div class="composer-row"><div id="captchaWrap" class="captcha"><button id="getCaptcha" class="aero-btn small"><i class="fa-solid fa-arrows-rotate"></i> get captcha</button><span id="captchaQuestion"></span><input id="captchaAnswer" aria-label="Captcha answer" placeholder="answer"></div><span class="privacy"><i class="fa-solid fa-lock"></i> anonymous • timestamps added automatically</span><button id="postBtn" class="post-btn"><i class="fa-solid fa-paper-plane"></i> drop it</button></div></section>
-<div id="archivePanel" class="archive-panel" hidden><div class="archive-head"><strong>Archive</strong><button id="closeArchive">close ×</button></div><div id="archiveDates"></div></div>
-<div id="postsContainer" class="posts-container"><div class="empty-state"><div class="empty-cloud">☁</div><strong>nothing floating yet</strong><span>be the first to leave a thought</span></div></div>
-</section></main>
+  <div class="board-head">
+    <div><span class="online-dot"></span><strong>public timeline</strong><small>everyone is anonymous here</small></div>
+    <div class="board-count"><i class="fa-solid fa-cloud"></i> floating thoughts</div>
+  </div>
+
+  <section class="composer">
+    <textarea id="postInput" maxlength="2000" placeholder="what's good? tell the void..." aria-label="Anonymous diary entry"></textarea>
+    <div class="composer-row">
+      <div id="captchaWrap" class="captcha">
+        <span class="captcha-label">ANTI-BOT</span>
+        <span id="captchaQuestion"></span>
+        <input id="captchaAnswer" aria-label="Captcha answer" inputmode="numeric" placeholder="?">
+        <button id="getCaptcha" class="aero-btn small" type="button" title="New captcha"><i class="fa-solid fa-arrows-rotate"></i></button>
+      </div>
+      <span class="privacy"><i class="fa-solid fa-lock"></i> anonymous • timestamps added automatically</span>
+      <button id="postBtn" class="post-btn" type="button"><i class="fa-solid fa-paper-plane"></i> drop it</button>
+    </div>
+  </section>
+
+  <div id="archivePanel" class="archive-panel" hidden>
+    <div class="archive-head"><strong><i class="fa-solid fa-box-archive"></i> Archive</strong><button id="closeArchive" type="button">close ×</button></div>
+    <div id="archiveDates"></div>
+  </div>
+
+  <div id="postsContainer" class="posts-container">
+    <div class="empty-state"><div class="empty-cloud">☁</div><strong>nothing floating yet</strong><span>be the first to leave a thought</span></div>
+  </div>
+</section>
+</main>
+
 <footer><span>✦ PUBLIC DUMPS</span><span>stay soft · stay anonymous · stay online</span></footer>
-<script src="main.js"></script>
-</body></html>
+<script src="main.js?v=4"></script>
+</body>
+</html>
