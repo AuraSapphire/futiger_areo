@@ -177,3 +177,7 @@ html::-webkit-scrollbar{display:none}
   .np-scroll-btn{width:13px}
   .notepad-title{font-size:10px}
 }
+
+
+/* Hand-drawn arrow cursor from the supplied reference */
+html,body,body *{cursor:url("cursor.svg") 1 13,auto}
