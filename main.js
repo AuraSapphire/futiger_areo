@@ -105,3 +105,140 @@ window.addEventListener('DOMContentLoaded', async ()=>{
   document.getElementById('postBtn').addEventListener('click', submitPost);
   await loadPosts(); await renderArchiveList(); fetchCaptcha();
 });
+
+
+// =========================
+// Tiny radio / music player
+// =========================
+let radioTrackIndex = 0;
+let radioPlaying = false;
+let radioTimer = null;
+const radioAudio = document.createElement('audio');
+radioAudio.preload = 'metadata';
+
+const radioTracks = [
+  {
+    name: 'Season of Memories',
+    artist: 'GFRIEND',
+    image: 'https://64.media.tumblr.com/257022417e60949df9482eafb52e5ace/823f4dd47674e5f7-3d/s2048x3072/6d11aa3c11b135bccaf8f4ccd42a6abdcfced8cc.jpg',
+    src: 'https://files.catbox.moe/vc4p9o.mp3'
+  },
+  {
+    name: 'HIGH',
+    artist: 'Seori',
+    image: 'https://64.media.tumblr.com/1c56b4b76b0736f0833a4e43d174ed66/823f4dd47674e5f7-b5/s2048x3072/4f2138ddeb3a4aa98887b8b55aa27fcda7fc3969.jpg',
+    src: 'https://files.catbox.moe/ddh7c5.mp3'
+  }
+];
+
+function formatRadioTime(seconds){
+  if(!Number.isFinite(seconds)) return '00:00';
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function loadRadioTrack(index, autoplay = false){
+  radioTrackIndex = (index + radioTracks.length) % radioTracks.length;
+  const track = radioTracks[radioTrackIndex];
+  const art = document.querySelector('.track-art');
+  const name = document.querySelector('.track-name');
+  const artist = document.querySelector('.track-artist');
+  const seek = document.querySelector('.seek_slider');
+  const current = document.querySelector('.current-time');
+  const total = document.querySelector('.total-duration');
+
+  radioAudio.pause();
+  radioAudio.src = track.src;
+  radioAudio.load();
+
+  if(art) art.style.backgroundImage = 'url("' + track.image + '")';
+  if(name) name.textContent = track.name;
+  if(artist) artist.textContent = track.artist;
+  if(seek) seek.value = 0;
+  if(current) current.textContent = '00:00';
+  if(total) total.textContent = '00:00';
+
+  radioPlaying = false;
+  updateRadioButton();
+
+  if(autoplay) playRadio();
+}
+
+function updateRadioButton(){
+  const button = document.querySelector('.playpause-track');
+  if(!button) return;
+  button.innerHTML = radioPlaying
+    ? '<i class="fa-solid fa-pause"></i>'
+    : '<i class="fa-solid fa-play"></i>';
+}
+
+async function playRadio(){
+  try{
+    await radioAudio.play();
+    radioPlaying = true;
+    updateRadioButton();
+  }catch(error){
+    console.error('Music player error:', error);
+    radioPlaying = false;
+    updateRadioButton();
+    alert('This track could not be played. The audio host may be unavailable.');
+  }
+}
+
+function pauseRadio(){
+  radioAudio.pause();
+  radioPlaying = false;
+  updateRadioButton();
+}
+
+function seekRadio(){
+  if(Number.isFinite(radioAudio.duration)){
+    radioAudio.currentTime = radioAudio.duration * (Number(document.querySelector('.seek_slider').value) / 100);
+  }
+}
+
+function updateRadioProgress(){
+  const seek = document.querySelector('.seek_slider');
+  const current = document.querySelector('.current-time');
+  const total = document.querySelector('.total-duration');
+
+  if(!seek || !current || !total) return;
+
+  if(Number.isFinite(radioAudio.duration) && radioAudio.duration > 0){
+    seek.value = (radioAudio.currentTime / radioAudio.duration) * 100;
+    total.textContent = formatRadioTime(radioAudio.duration);
+  }
+  current.textContent = formatRadioTime(radioAudio.currentTime);
+}
+
+function nextRadioTrack(){
+  loadRadioTrack(radioTrackIndex + 1, true);
+}
+
+function prevRadioTrack(){
+  loadRadioTrack(radioTrackIndex - 1, true);
+}
+
+radioAudio.addEventListener('timeupdate', updateRadioProgress);
+radioAudio.addEventListener('loadedmetadata', updateRadioProgress);
+radioAudio.addEventListener('ended', nextRadioTrack);
+radioAudio.addEventListener('error', () => {
+  radioPlaying = false;
+  updateRadioButton();
+  console.error('Unable to load radio track:', radioAudio.src);
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const play = document.querySelector('.playpause-track');
+  const next = document.querySelector('.next-track');
+  const prev = document.querySelector('.prev-track');
+  const seek = document.querySelector('.seek_slider');
+
+  if(play) play.addEventListener('click', () => radioPlaying ? pauseRadio() : playRadio());
+  if(next) next.addEventListener('click', nextRadioTrack);
+  if(prev) prev.addEventListener('click', prevRadioTrack);
+  if(seek) seek.addEventListener('input', seekRadio);
+
+  loadRadioTrack(0);
+});
