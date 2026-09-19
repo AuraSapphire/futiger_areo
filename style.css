@@ -70,3 +70,114 @@ footer{padding-top:10px;border-top:1px dashed rgba(55,128,149,.35)}
 /* WMP-inspired outer site frame — reference image */
 html:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:99999;border:12px solid transparent;border-image:linear-gradient(135deg,#eef4ff 0%,#b9c9ee 12%,#6f83bd 27%,#dfe8ff 43%,#899bd0 60%,#f4f7ff 78%,#7184ba 100%) 1;box-shadow:inset 0 0 0 2px rgba(255,255,255,.9),inset 0 0 0 5px rgba(77,103,165,.42),inset 0 0 18px rgba(36,65,132,.42);}
 @media(max-width:600px){html:before{border-width:7px}}
+
+
+/* Note Pad outer frame — faithful pixel-style reference */
+html{scrollbar-width:none}
+html::-webkit-scrollbar{display:none}
+.notepad-frame{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  pointer-events:none;
+  border:2px solid #111;
+  box-shadow:inset 0 0 0 1px #777,inset 0 0 0 3px #ddd,inset 0 0 0 4px #111;
+  background:transparent;
+}
+.notepad-titlebar{
+  position:absolute;
+  left:3px;right:3px;top:3px;height:20px;
+  border-bottom:1px solid #111;
+  background:#eee;
+  box-shadow:inset 0 1px #fff,inset 0 -1px #aaa;
+  display:flex;align-items:center;
+}
+.notepad-titlebar:before{
+  content:"";
+  position:absolute;left:4px;right:4px;top:4px;height:8px;
+  background:repeating-linear-gradient(to bottom,#777 0 1px,#eee 1px 2px);
+  opacity:.8;
+}
+.notepad-menu{
+  position:relative;z-index:2;
+  width:12px;height:12px;margin-left:2px;
+  border:1px solid #111;background:#eee;
+  box-shadow:inset 2px 2px #fff,inset -1px -1px #999;
+}
+.notepad-menu:after{
+  content:"";position:absolute;left:2px;top:2px;width:6px;height:6px;
+  border:1px solid #777;background:#ddd;
+}
+.notepad-title{
+  position:relative;z-index:2;
+  margin:auto;
+  padding:0 12px;
+  background:#eee;
+  color:#111;
+  font:700 12px "Courier New",monospace;
+  line-height:14px;
+}
+.notepad-window-buttons{
+  position:relative;z-index:2;
+  display:flex;gap:3px;margin-right:3px;background:#eee;
+}
+.notepad-window-buttons i{
+  display:block;width:11px;height:11px;border:1px solid #111;
+  background:#eee;box-shadow:inset 2px 2px #fff,inset -1px -1px #999;
+}
+.notepad-window-buttons i:nth-child(1):after{
+  content:"";display:block;width:5px;height:1px;background:#111;margin:6px auto 0;
+}
+.notepad-window-buttons i:nth-child(2):after{
+  content:"";display:block;width:5px;height:5px;border:1px solid #111;margin:1px auto;
+}
+.notepad-window-buttons i:nth-child(3):after{
+  content:"×";display:block;font:10px/8px Arial;text-align:center;color:#111;
+}
+.notepad-scrollbar{
+  pointer-events:auto;
+  position:absolute;
+  top:23px;right:3px;bottom:4px;width:15px;
+  background:#eee;
+  border-left:1px solid #111;
+  border-right:1px solid #777;
+  box-shadow:inset 1px 0 #fff;
+}
+.np-scroll-btn{
+  display:block;width:14px;height:15px;padding:0;margin:0;
+  border:0;border-bottom:1px solid #777;
+  background:#eee;color:#222;
+  font:8px/14px Arial,sans-serif;
+  cursor:pointer;
+  box-shadow:inset 1px 1px #fff,inset -1px -1px #bbb;
+}
+.np-scroll-btn:active{box-shadow:inset 1px 1px #999,inset -1px -1px #fff}
+.np-down{position:absolute;left:0;bottom:0;border-top:1px solid #777;border-bottom:0}
+.np-scroll-track{
+  position:absolute;left:0;right:0;top:15px;bottom:15px;
+  background:repeating-linear-gradient(135deg,#eee 0 2px,#e8e8e8 2px 4px);
+}
+.np-scroll-thumb{
+  position:absolute;left:1px;top:0;width:11px;height:55px;
+  min-height:24px;padding:0;
+  border:1px solid #777;
+  background:linear-gradient(90deg,#f8f8f8 0,#ccc 48%,#f7f7f7 100%);
+  box-shadow:inset 1px 1px #fff,inset -1px -1px #aaa;
+  cursor:grab;
+}
+.np-scroll-thumb:active{cursor:grabbing}
+.notepad-corner{
+  position:absolute;bottom:4px;width:15px;height:15px;
+  border:1px solid #111;background:linear-gradient(45deg,#eee 0 48%,#111 49% 52%,#eee 53%);
+}
+.notepad-corner-left{left:3px;clip-path:polygon(0 0,100% 100%,0 100%)}
+.notepad-corner-right{
+  right:20px;border:0;background:repeating-linear-gradient(135deg,transparent 0 2px,#777 2px 3px);
+}
+@media(max-width:600px){
+  .notepad-frame{border-width:1px}
+  .notepad-titlebar{height:18px}
+  .notepad-scrollbar{top:21px;width:14px}
+  .np-scroll-btn{width:13px}
+  .notepad-title{font-size:10px}
+}
