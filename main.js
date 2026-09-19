@@ -118,6 +118,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('closeArchive')?.addEventListener('click',()=>toggleArchive(false));
   document.getElementById('exportBtn')?.addEventListener('click',exportPosts);
   document.getElementById('getCaptcha')?.addEventListener('click',makeCaptcha);
-  document.getElementById('postBtn')?.addEventListener('click',submitPost);\n  makeCaptcha();
+  document.getElementById('postBtn')?.addEventListener('click',submitPost);
+  makeCaptcha();
   loadPosts();renderArchiveList();
 });
