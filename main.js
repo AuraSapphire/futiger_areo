@@ -259,6 +259,9 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('exportBtn')?.addEventListener('click',exportPosts);
   document.getElementById('getCaptcha')?.addEventListener('click',makeCaptcha);
   document.getElementById('postBtn')?.addEventListener('click',submitPost);
+  document.querySelector('.welcome-chat-link')?.addEventListener('click',()=>{
+    requestAnimationFrame(()=>document.getElementById('postInput')?.focus());
+  });
   makeCaptcha();
   loadPosts();renderArchiveList();
   setupMusicPlayer();
