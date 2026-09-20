@@ -18,7 +18,7 @@ let audioTracks=[];
 let currentTrackIndex=0;
 
 function prettyTrackName(filename){
-  return filename.replace(/\\.[^/.]+$/,'').replace(/[-_]+/g,' ').replace(/\\b\\w/g,c=>c.toUpperCase());
+  return filename.replace(/\.[^/.]+$/,'').replace(/[-_]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
 }
 
 function audioPublicUrl(path){
@@ -37,7 +37,7 @@ async function listAudioObjects(prefix='',offset=0,all=[]){
     const path=prefix ? prefix+'/'+row.name : row.name;
     if(row.id===null){
       await listAudioObjects(path,0,all);
-    }else if(/\\.(mp3|wav|ogg|m4a|aac|flac)$/i.test(row.name)){
+    }else if(/\.(mp3|wav|ogg|m4a|aac|flac)$/i.test(row.name)){
       all.push({...row,name:path});
     }
   }
