@@ -200,3 +200,19 @@ body{
 .post-icon-btn img{display:block;width:34px;height:34px;object-fit:contain;background:transparent;pointer-events:none}
 .post-icon-btn:hover img{transform:scale(1.06)}
 .post-icon-btn:active img{transform:scale(.96)}
+
+
+/* Uploaded Frutiger Aero icon set */
+.aero-logo-icon{width:27px;height:27px;object-fit:contain;display:block;image-rendering:auto;filter:drop-shadow(0 1px 1px rgba(0,80,120,.2))}
+.aero-btn-icon{width:18px;height:18px;object-fit:contain;vertical-align:-5px;margin-right:4px;image-rendering:auto}
+.section-icon{width:19px;height:19px;object-fit:contain;vertical-align:-5px;margin-right:5px;image-rendering:auto;filter:drop-shadow(0 1px 1px rgba(0,80,120,.15))}
+.privacy-icon{width:15px;height:15px;object-fit:contain;vertical-align:-3px;margin-right:4px;image-rendering:auto}
+.brand-orb .aero-logo-icon{width:29px;height:29px}
+.aero-btn{display:inline-flex;align-items:center;justify-content:center;gap:2px}
+.card-title{display:flex;align-items:center;gap:2px}
+.board-count{display:flex;align-items:center;gap:3px}
+.privacy{display:flex;align-items:center}
+@media(max-width:600px){
+  .aero-btn-icon{width:17px;height:17px}
+  .section-icon{width:17px;height:17px}
+}
