@@ -25,20 +25,33 @@ function audioPublicUrl(path){
   return SUPABASE_URL+'/storage/v1/object/public/'+AUDIO_BUCKET+'/'+path.split('/').map(encodeURIComponent).join('/');
 }
 
+async function listAudioObjects(prefix='',offset=0,all=[]){
+  const res=await fetch(SUPABASE_URL+'/storage/v1/object/list/'+AUDIO_BUCKET,{
+    method:'POST',
+    headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({prefix,limit:100,offset,sortBy:{column:'name',order:'asc'}})
+  });
+  const rows=await res.json();
+  if(!res.ok)throw new Error(rows?.message||'Could not list music');
+  for(const row of (Array.isArray(rows)?rows:[])){
+    const path=prefix ? prefix+'/'+row.name : row.name;
+    if(row.id===null){
+      await listAudioObjects(path,0,all);
+    }else if(/\\.(mp3|wav|ogg|m4a|aac|flac)$/i.test(row.name)){
+      all.push({...row,name:path});
+    }
+  }
+  if(rows.length===100)await listAudioObjects(prefix,offset+100,all);
+  return all;
+}
+
 async function loadMusicLibrary(){
   const list=document.getElementById('musicPlaylist');
   const audio=document.getElementById('siteAudio');
   if(!list||!audio)return;
   list.innerHTML='<div class="playlist-loading"><i class="fa-solid fa-spinner fa-spin"></i> scanning the radio shelf…</div>';
   try{
-    const res=await fetch(SUPABASE_URL+'/storage/v1/object/list/'+AUDIO_BUCKET,{
-      method:'POST',
-      headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({prefix:'',limit:100,offset:0,sortBy:{column:'name',order:'asc'}})
-    });
-    const rows=await res.json();
-    if(!res.ok)throw new Error(rows?.message||'Could not list music');
-    audioTracks=(Array.isArray(rows)?rows:[]).filter(x=>x.id!==null && /\\.(mp3|wav|ogg|m4a|aac|flac)$/i.test(x.name));
+    audioTracks=await listAudioObjects();
     list.innerHTML='';
     if(!audioTracks.length){
       list.innerHTML='<div class="playlist-empty">No songs yet — upload one to the <b>site-audio</b> bucket.</div>';
