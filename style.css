@@ -216,3 +216,144 @@ body{
   .aero-btn-icon{width:17px;height:17px}
   .section-icon{width:17px;height:17px}
 }
+
+
+/* Windows Media Player 9/10 inspired radio skin — early 2000s */
+.player-card{
+  padding:0;
+  overflow:hidden;
+  border:1px solid #7d8794;
+  border-radius:5px;
+  background:linear-gradient(#dfe5ec 0,#aeb8c5 18px,#d7dde4 19px,#bcc5cf 100%);
+  box-shadow:inset 0 1px #fff,0 2px 7px rgba(0,0,0,.25);
+}
+.player-card .card-title{
+  min-height:26px;
+  box-sizing:border-box;
+  padding:5px 8px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  color:#173c69;
+  font-family:Tahoma,Arial,sans-serif;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0;
+  text-shadow:0 1px #fff;
+  background:linear-gradient(#f4f6f8,#b8c1cb);
+  border-bottom:1px solid #727d89;
+}
+.player-card .card-title>span{
+  margin-left:auto;
+  float:none;
+  color:#267a45;
+  font-size:8px;
+  font-weight:700;
+}
+.player-card .player-main{
+  margin:0;
+  padding:8px 9px 6px;
+  min-height:39px;
+  box-sizing:border-box;
+  background:linear-gradient(180deg,#183b66,#061a35);
+  border-bottom:1px solid #526a83;
+}
+.player-card .track-name{
+  color:#d9eaff;
+  font:700 12px Tahoma,Arial,sans-serif;
+  text-shadow:0 1px #000;
+}
+.player-card .track-artist{
+  color:#8db4d8;
+  font:10px Tahoma,Arial,sans-serif;
+}
+.player-card .native-audio{
+  display:block;
+  width:calc(100% - 14px);
+  height:34px;
+  margin:0;
+  padding:3px 7px;
+  box-sizing:border-box;
+  border-radius:0;
+  background:linear-gradient(#cfd5dc,#8f99a5);
+  border:0;
+  filter:none;
+}
+.player-card .native-audio::-webkit-media-controls-panel{
+  background:linear-gradient(#dfe4e9,#9ca6b1);
+}
+.player-card .track-found{
+  margin:0;
+  padding:5px 8px;
+  color:#8db4d8;
+  font:9px Tahoma,Arial,sans-serif;
+  background:#0b203c;
+  border-top:1px solid #304d70;
+}
+.player-card .music-actions{
+  padding:5px 7px 4px;
+  margin:0;
+  background:#0b203c;
+}
+.player-card .music-actions .aero-btn{
+  border:1px solid #53687e;
+  border-radius:2px;
+  padding:3px 8px;
+  color:#102f52;
+  font:700 9px Tahoma,Arial,sans-serif;
+  background:linear-gradient(#f7f9fb,#aeb8c3);
+  box-shadow:inset 0 1px #fff,0 1px 2px #000;
+}
+.player-card .music-actions .aero-btn:active{
+  background:linear-gradient(#aeb8c3,#f7f9fb);
+  box-shadow:inset 0 1px 2px #59636e;
+}
+.player-card .music-playlist{
+  margin:0;
+  padding:5px;
+  max-height:180px;
+  gap:1px;
+  overflow:auto;
+  background:#06172b;
+  border-top:1px solid #4d6580;
+  scrollbar-color:#8f9cab #1a2d44;
+  scrollbar-width:thin;
+}
+.player-card .playlist-track{
+  min-height:25px;
+  box-sizing:border-box;
+  padding:4px 7px;
+  gap:7px;
+  border:0;
+  border-radius:0;
+  color:#d7e6f7;
+  background:linear-gradient(90deg,#0b2a4e,#12385f);
+  font:10px Tahoma,Arial,sans-serif;
+  font-weight:400;
+  box-shadow:none;
+  text-shadow:0 1px #000;
+  transform:none;
+}
+.player-card .playlist-track:hover{
+  background:#194e7f;
+  color:#fff;
+  transform:none;
+}
+.player-card .playlist-track.active{
+  outline:0;
+  background:linear-gradient(90deg,#1e5f91,#2678a8);
+  color:#fff;
+  box-shadow:inset 3px 0 #73d44c;
+}
+.player-card .playlist-track i{
+  width:12px;
+  color:#79c8ee;
+}
+.player-card .playlist-loading,
+.player-card .playlist-empty{
+  margin:0;
+  padding:12px 8px;
+  color:#9eb8d2;
+  background:#06172b;
+  font:10px Tahoma,Arial,sans-serif;
+}
