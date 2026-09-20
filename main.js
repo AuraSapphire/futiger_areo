@@ -18,7 +18,7 @@ let audioTracks=[];
 let currentTrackIndex=0;
 
 function prettyTrackName(filename){
-  return filename.replace(/\.[^/.]+$/,'').replace(/[-_]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  return filename.replace(/\.[^/.]+$/,'').replace(/\s*\(?SPOTISAVER\)?\s*/ig,' ').replace(/[-_]+/g,' ').replace(/\s{2,}/g,' ').trim().replace(/\b\w/g,c=>c.toUpperCase());
 }
 
 function audioPublicUrl(path){
