@@ -193,3 +193,10 @@ body{
 .welcome-chat-link img{cursor:pointer;transition:filter .15s ease,transform .15s ease}
 .welcome-chat-link:hover img{filter:saturate(1.08) brightness(1.03)}
 .welcome-chat-link:active img{transform:scale(.995)}
+
+
+/* Uploaded send icon */
+.post-icon-btn{padding:4px 7px;min-width:46px;min-height:42px;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,.75);border-color:rgba(123,212,233,.65);box-shadow:0 4px 9px rgba(0,100,140,.14)}
+.post-icon-btn img{display:block;width:34px;height:34px;object-fit:contain;background:transparent;pointer-events:none}
+.post-icon-btn:hover img{transform:scale(1.06)}
+.post-icon-btn:active img{transform:scale(.96)}
